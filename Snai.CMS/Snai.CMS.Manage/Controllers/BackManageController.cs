@@ -90,19 +90,20 @@ namespace Snai.CMS.Manage.Controllers
                     }
                 }
 
-                dynamic model = new ExpandoObject();
-
-                model.code = 0;
-                model.msg = "";
-                model.count = totCount;
-                model.data = admins.Select(s => new
+                dynamic model = new
                 {
-                    id = s.ID,
-                    userName = s.UserName,
-                    roleTitle = s.RoleTitle,
-                    state = s.State,
-                    lockState = s.LockState
-                });
+                    code = 0,
+                    msg = "",
+                    count = totCount,
+                    data = admins.Select(s => new
+                    {
+                        id = s.ID,
+                        userName = s.UserName,
+                        roleTitle = s.RoleTitle,
+                        state = s.State,
+                        lockState = s.LockState
+                    })
+                };
 
                 return new JsonResult(model);
             }
@@ -328,22 +329,22 @@ namespace Snai.CMS.Manage.Controllers
                     }
                 }
 
-                dynamic model = new ExpandoObject();
 
-                model.code = 0;
-                model.msg = "";
-                model.count = totCount;
-                model.data = modules.Select(s => new
+                return Json(new
                 {
-                    id = s.ID,
-                    title = s.Title,
-                    parentTitle = s.ParentTitle,
-                    controller = s.Controller,
-                    action = s.Action,
-                    state = s.State
+                    code = 0,
+                    msg = "",
+                    count = totCount,
+                    data = modules.Select(s => new
+                    {
+                        id = s.ID,
+                        title = s.Title,
+                        parentTitle = s.ParentTitle,
+                        controller = s.Controller,
+                        action = s.Action,
+                        state = s.State
+                    })
                 });
-
-                return new JsonResult(model);
             }
         }
 
@@ -533,17 +534,18 @@ namespace Snai.CMS.Manage.Controllers
                     }
                 }
 
-                dynamic model = new ExpandoObject();
-
-                model.code = 0;
-                model.msg = "";
-                model.count = totCount;
-                model.data = roles.Select(s => new
+                dynamic model = new
                 {
-                    id = s.ID,
-                    title = s.Title,
-                    state = s.State
-                });
+                    code = 0,
+                    msg = "",
+                    count = totCount,
+                    data = roles.Select(s => new
+                    {
+                        id = s.ID,
+                        title = s.Title,
+                        state = s.State
+                    })
+                };
 
                 return new JsonResult(model);
             }

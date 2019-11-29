@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Snai.CMS.Manage.Business.Implement;
 using Snai.CMS.Manage.Business.Interface;
 using Snai.CMS.Manage.Common.Infrastructure.Extension;
@@ -46,7 +47,8 @@ namespace Snai.CMS.Manage
                 options.Cookie.HttpOnly = true;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddControllersWithViews();
 
             //注册HttpContext，用于在Controller之外的地方使用
             services.AddHttpContextAccessor();
@@ -75,7 +77,7 @@ namespace Snai.CMS.Manage
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -87,14 +89,20 @@ namespace Snai.CMS.Manage
             }
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            app.UseRouting();
             app.UseSession();
+            //app.UseRouter(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
